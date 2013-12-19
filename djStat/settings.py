@@ -1,3 +1,4 @@
+#-*- coding:utf8 -*-
 """
 Django settings for djStat project.
 
@@ -36,10 +37,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'djStat.dbmgr',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.locale.LocaleMiddleware',#让admin显示为中文界面
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -57,8 +60,12 @@ WSGI_APPLICATION = 'djStat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		'ENGINE':'django.db.backends.mysql',
+		'NAME':'pydb',
+		'USER':'root',
+		'PASSWORD':'123456',
     }
 }
 
