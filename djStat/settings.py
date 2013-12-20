@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+	'grappelli',
+	'filebrowser',#文件浏览器
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
