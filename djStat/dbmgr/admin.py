@@ -31,6 +31,19 @@ class g168ExpressAdmin(admin.ModelAdmin):
 
 class g168MenuItemAdmin(admin.ModelAdmin):
 	list_display = ('content','content_type','link_type','link_value','newline','menu_id','order_by','tagcontent','type_id')
+	fields = ('menu_id','content_type','content','link_type','link_value','newline','order_by','tagcontent','type_id')
+	list_filter = ('menu_id',)
+	#readonly_fields = ('menu_id',)
+	#def get_readmonly_fields(self, request, obj=None):
+	#	return self.readonly_fields
+
+class g168MenuAdmin(admin.ModelAdmin):
+	list_display = ('menu_name','type_id','is_index','status')
+	fields = ('menu_name','type_id','is_index','status')
+	readonly_fields = ('menu_id',)
+	def get_readmonly_fields(self, request, obj=None):
+		return self.readonly_fields
+
 admin.site.register(g168_item,g168ItemAdmin)
 admin.site.register(g168_item_status)
 admin.site.register(g168_item_type)
@@ -43,6 +56,6 @@ admin.site.register(g168_order_status)
 admin.site.register(visitorcounter,vistCountAdmin)
 admin.site.register(t_product_menu_type_approve,menuTypeAdmin)
 admin.site.register(t_product_menu_item_approve,g168MenuItemAdmin)
-admin.site.register(t_product_menu_approve)
+admin.site.register(t_product_menu_approve,g168MenuAdmin)
 admin.site.register(g168_page_style)
 admin.site.register(g168_link_type)

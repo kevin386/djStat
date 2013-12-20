@@ -230,26 +230,27 @@ class g168_link_type(models.Model):
 
 class t_product_menu_approve(models.Model):
 	menu_id = models.IntegerField(primary_key=True,unique=True)
-	menu_name = models.CharField(max_length=200)
+	menu_name = models.CharField('菜单',max_length=200)
 	bg_color = models.CharField(max_length=200)
 	font_color = models.CharField(max_length=200)
 	link_color = models.CharField(max_length=200)
 	font_size = models.CharField(max_length=200)
-	type_id = models.DecimalField(max_digits=8,decimal_places=0)
+	#type_id = models.DecimalField('类型',max_digits=8,decimal_places=0)
+	type_id = models.ForeignKey(t_product_menu_type_approve,db_column='type_id', verbose_name='菜单类型')
 	add_date = models.DateTimeField()
-	is_index = models.DecimalField(max_digits=8,decimal_places=0)
+	is_index = models.DecimalField('是否首页',max_digits=8,decimal_places=0)
 	rec_link = models.CharField(max_length=20)
 	rec_download = models.CharField(max_length=20)
 	user_id = models.DecimalField(max_digits=8,decimal_places=0)
 	is_special = models.DecimalField(max_digits=8,decimal_places=0)
-	status = models.DecimalField(max_digits=8,decimal_places=0)
+	status = models.DecimalField('状态',max_digits=8,decimal_places=0)
 	reversed1 = models.CharField(max_length=16)
 	reversed2 = models.CharField(max_length=16)
 	reversed3 = models.CharField(max_length=32)
 	class Meta:
 		db_table = 't_product_menu_approve'
-		verbose_name = '菜单列表' 
-		verbose_name_plural = '菜单列表'
+		verbose_name = '菜单' 
+		verbose_name_plural = '菜单'
 		app_label = u'菜单管理'
 
 	def __unicode__(self):
@@ -286,8 +287,8 @@ class t_product_menu_item_approve(models.Model):
 
 	class Meta:
 		db_table = 't_product_menu_item_approve'
-		verbose_name = '菜单内容' 
-		verbose_name_plural = '菜单内容'
+		verbose_name = '菜单项' 
+		verbose_name_plural = '菜单项'
 		app_label = u'菜单管理'
 		ordering = ['order_by']
 
