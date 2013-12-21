@@ -1,0 +1,10 @@
+{% block text %}
+{% if obj.link_type %}
+{% ifequal obj.link_type.id 6 %}
+<a href='{{ obj.link_value }}'>{{ obj.content }}</a>
+{% else %}
+{{ obj.content }}
+{% endifequal %}
+{{ obj.newline.id }}
+{% endif %}
+{% endblock %}

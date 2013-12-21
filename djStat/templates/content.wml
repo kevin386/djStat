@@ -1,0 +1,40 @@
+{% block content %}
+{% if objs %}
+{% for obj in objs %}
+
+{% ifequal obj.content_type.id 0 %}
+
+{# 文本类型 #}
+{% include "text.wml" %}
+
+{% else %}
+{% ifequal obj.content_type.id 1 %}
+
+{# 图片类型 #}
+<img src="{{ obj.content }}" alt=""/>
+
+{% else %}
+{% ifequal obj.content_type.id 5 %}
+
+{# 搜索框 #}
+
+{% else %}
+{% ifequal obj.content_type.id 100 %}
+
+{# 分栏 #}
+
+{% else %}
+
+{% endifequal %}
+{% endifequal %}
+{% endifequal %}
+{% endifequal %}
+
+{% ifequal obj.newline.id '1' %}
+<br />
+{% endifequal %}
+
+
+{% endfor %}
+{% endif %}
+{% endblock %}

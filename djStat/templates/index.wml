@@ -1,0 +1,16 @@
+{% extends "base.wml" %}
+
+{% block headbar %}
+<card id="main" title="互联易购">
+<p>
+{% endblock %}
+
+{% block content %}
+{% include "content.wml" %}
+{% endblock %}
+
+{% block footbar %}
+</p>
+</card>
+{% endblock %}
+

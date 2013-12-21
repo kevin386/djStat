@@ -26,7 +26,10 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+#templates directory
+TEMPLATE_DIRS = (
+		os.path.join(os.path.dirname(__file__),'templates').replace('\\','/'),
+)
 # Application definition
 
 INSTALLED_APPS = (
