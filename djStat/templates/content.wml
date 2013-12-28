@@ -1,27 +1,36 @@
 {% block content %}
-{% if objs %}
-{% for obj in objs %}
-
-{% ifequal obj.content_type.id 0 %}
+{% if menuItems %}
+{% for menu in menuItems %}
+{% ifequal menu.type 0 %}
 
 {# 文本类型 #}
+{% with text=menu.obj %}
 {% include "text.wml" %}
+{% endwith %}
 
 {% else %}
-{% ifequal obj.content_type.id 1 %}
+{% ifequal menu.type 1 %}
 
 {# 图片类型 #}
-<img src="{{ obj.content }}" alt=""/>
+{% with image=menu.obj %}
+{% include "image.wml" %}
+{% endwith %}
 
 {% else %}
-{% ifequal obj.content_type.id 5 %}
+{% ifequal menu.type 5 %}
 
 {# 搜索框 #}
+{% with input=menu.obj %}
+{% include "input.wml" %}
+{% endwith %}
 
 {% else %}
-{% ifequal obj.content_type.id 100 %}
+{% ifequal menu.type 100 %}
 
 {# 分栏 #}
+{% with sublists=menu.obj %}
+{% include "subfield.wml" %}
+{% endwith %}
 
 {% else %}
 
@@ -30,7 +39,7 @@
 {% endifequal %}
 {% endifequal %}
 
-{% ifequal obj.newline.id '1' %}
+{% ifequal menu.newline 0 %}
 <br />
 {% endifequal %}
 

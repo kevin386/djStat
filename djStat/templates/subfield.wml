@@ -1,0 +1,43 @@
+{% for sublist in sublists %}
+{% ifequal sublist.style 1 %}
+{# 仅显示标题 #}
+
+{% with text=sublist.text %}
+{% include "text.wml" %}
+{% endwith %}
+
+{% else %}
+
+{% ifequal sublist.style 2 %}
+{# 显示标题图片 #}
+
+{% with text=sublist.text %}
+{% include "text.wml" %}
+{% endwith %}
+{% with image=sublist.text %}
+{% include "image.wml" %}
+{% endwith %}
+
+{% else %}
+
+{% ifequal sublist.style 1 %}
+{# 显示标题图片以及订购信息 #}
+{% with text=sublist.text %}
+{% include "text.wml" %}
+{% endwith %}
+{% with image=sublist.image %}
+{% include "image.wml" %}
+{% endwith %}
+{% with order=sublist.order %}
+{% include "order.wml" %}
+{% endwith %}
+
+{% endifequal %}
+{% endifequal %}
+{% endifequal %}
+
+{% if not forloop.last %}
+<br />
+{% endif %}
+
+{% endfor %}

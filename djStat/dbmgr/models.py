@@ -227,6 +227,18 @@ class g168_link_type(models.Model):
 	def __unicode__(self):
 		return '%s' % self.name; 
 
+class g168_tags(models.Model):
+	id = models.IntegerField(primary_key=True,unique=True)
+	name = models.CharField(max_length=45,verbose_name='名称')
+	class Meta:
+		db_table = 'g168_tags'
+		verbose_name = '标签' 
+		verbose_name_plural = '标签'
+		app_label = u'标签管理'
+
+	def __unicode__(self):
+		return '%s' % self.name; 
+
 
 class t_product_menu_approve(models.Model):
 	menu_id = models.IntegerField(primary_key=True,unique=True)
@@ -256,6 +268,17 @@ class t_product_menu_approve(models.Model):
 	def __unicode__(self):
 		return '%s' % self.menu_name; 
 	
+class g168_sublist_disptype(models.Model):
+	id = models.IntegerField(primary_key=True,unique=True)
+	name = models.CharField(max_length=45,verbose_name='名称')
+	class Meta:
+		db_table = 'g168_sublist_disptype'
+		verbose_name = '分栏显示类型' 
+		verbose_name_plural = '分栏显示类型'
+		app_label = u'分栏类型管理'
+
+	def __unicode__(self):
+		return '%s' % self.name; 
 	
 class t_product_menu_item_approve(models.Model):
 	item_id = models.IntegerField(primary_key=True,unique=True)
@@ -275,9 +298,11 @@ class t_product_menu_item_approve(models.Model):
 	order_by = models.DecimalField('排序',max_digits=8, decimal_places=0)
 	act_date = models.DateTimeField()
 	tagcontent = models.CharField('标签',max_length=32)
+	#tagcontent = models.ManyToManyField(g168_tags,db_table='g168_tags',db_column='tagcontent',verbose_name='标签')
 	rankcycle = models.DecimalField(max_digits=8,decimal_places=0)
 	status = models.DecimalField(max_digits=8,decimal_places=0)
-	disptype = models.IntegerField()
+	#disptype = models.IntegerField()
+	disptype = models.ForeignKey(g168_sublist_disptype,db_column='disptype', verbose_name='分栏类型')
 	isself = models.IntegerField()
 	type_id = models.ForeignKey(t_product_menu_type_approve,db_column='type_id', verbose_name='菜单类型')
 	reserved1 = models.IntegerField()

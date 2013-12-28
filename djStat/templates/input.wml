@@ -1,0 +1,8 @@
+{% if input %}
+<input type='text'value='' name='{{ input.name }}' size='15'/>
+<anchor>{{ input.title }}
+<go href='{{ input.href }}' method='post'>
+<postfield name='keyword' value='$({{ input.name }})'/>
+</go>
+</anchor>
+{% endif %}
