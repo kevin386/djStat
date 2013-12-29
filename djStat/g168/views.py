@@ -44,16 +44,45 @@ class MenuItem:
 		#是否换行
 		self.newline = newline
 
+def proList(request,act="",tag="",type="",code="",price="",vist=""):
+	if act == "ls":
+		if not price == "":
+			if price == "de":
+				if not type == "":
+					dbItems = g168_item.objects.filter(ctype=type).oder_by("-price")
+				else:
+					dbItems = g168_item.objects.oder_by("-price")
+			else:
+				if not type == "":
+					dbItems = g168_item.objects.filter(ctype=type).oder_by("price")
+				else:
+					dbItems = g168_item.objects.oder_by("price")
+			if not type == "":
+				dbItems = g168_item.objects.filter(ctype=type).oder_by("-price")
+			else:
+				dbItems = g168_item.objects.oder_by("-price")
+		elif not vist == "":
+			if not type == "":
+				dbItems = g168_item.objects.filter(ctype=type).oder_by("vistCount")
+			else:
+				dbItems = g168_item.objects.oder_by("vistCount")
+		elif not type == "":
+			dbItems = g168_item.objects.filter(ctype=type).oder_by("-price")
+	elif act == "schPro":
+		if not type == "":
+			dbItems = g168_item.objects.filter(ctype=type,cname__icontains=tag,itemcode__icontains=tag).oder_by("-price")
+		else:
+			dbItems = g168_item.objects.filter(cname__icontains=tag,itemcode__icontains=tag).oder_by("-price")
+	elif act == "schOrd":
+		pass
+	for item in dbItems:
+		print item
+
 # Create your views here.
-def index(request):
-	dbMenuItems = t_product_menu_item_approve.objects.filter(menu_id="1").order_by('order_by')
+def index(request,id="1"):
+	dbMenuItems = t_product_menu_item_approve.objects.filter(menu_id=id).order_by('order_by')
 	menuItems = []
 	for menu in dbMenuItems:
-		try:
-			link_type_id = menu.link_type.id
-		except:
-			link_type_id = 0
-
 		#这是分栏
 		if menu.content_type.id == 100:
 			sublists = []
