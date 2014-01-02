@@ -14,20 +14,23 @@
 {% with text=sublist.text %}
 {% include "text.wml" %}
 {% endwith %}
-{% with image=sublist.text %}
+<br />
+{% with image=sublist.image %}
 {% include "image.wml" %}
 {% endwith %}
 
 {% else %}
 
-{% ifequal sublist.style 1 %}
+{% ifequal sublist.style 3 %}
 {# 显示标题图片以及订购信息 #}
 {% with text=sublist.text %}
 {% include "text.wml" %}
 {% endwith %}
+<br />
 {% with image=sublist.image %}
 {% include "image.wml" %}
 {% endwith %}
+<br />
 {% with order=sublist.order %}
 {% include "order.wml" %}
 {% endwith %}

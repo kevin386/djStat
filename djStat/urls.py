@@ -5,12 +5,12 @@ from filebrowser.sites import site
 from django.contrib import admin
 admin.autodiscover()
 
-def proList(request,act="",tag="",type="",code="",price="",vist=""):
-	
 urlpatterns = patterns('',
-    url(r'^(?P<id>\d+)$', 'djStat.g168.views.index'),
-    #url(r'^$', 'djStat.g168.views.index'),
-    url(r'^act=(?P<id>.*)$', 'djStat.g168.views.proList'),
+    url(r'^$', 'djStat.g168.views.index'),
+    url(r'^(?P<id>\d+)/$', 'djStat.g168.views.index'),
+    url(r'^(?P<act>ls)/(?P<type>\w+)/$', 'djStat.g168.views.proList'),
+    url(r'^(?P<act>ls)/(?P<type>\d+)/(?P<orderby>[+-]price|vist)/$', 'djStat.g168.views.proList'),
+    url(r'^(?P<act>sch)/$', 'djStat.g168.views.proList'),
 
 	url(r'^grappelli/',include('grappelli.urls')),
 	url(r'^admin/filebrowser/', include(site.urls)),
