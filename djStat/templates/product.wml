@@ -1,0 +1,36 @@
+{% extends "base.wml" %}
+
+{% if product %}
+{% block headbar %}
+{% ifequal product.type 1 %}
+<card id="main" title="手机">
+{% else %}
+{% ifequal product.type 2 %}
+<card id="main" title="平板">
+{% else %}
+<card id="main" title="服装">
+{% endifequal %}
+{% endifequal %}
+<p>
+{% endblock %}
+
+{% block content %}
+{% ifequal product.type 3 %}
+{% with clothing=product.obj %}
+{% include "clothing.wml" %}
+{% endwith %}
+{% else %}
+{% with electronics=product.obj %}
+{% include "electronics.wml" %}
+{% endwith %}
+{% endifequal %}
+{% endblock %}
+
+{% block footbar %}
+{% with explain=product.explain %}
+{% include "explain.wml" %}
+{% endwith %}
+</p>
+</card>
+{% endblock %}
+{% endif %}

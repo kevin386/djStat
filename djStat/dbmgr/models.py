@@ -49,6 +49,17 @@ class g168_item_type(models.Model):
 	def __unicode__(self):
 		return self.name;
 
+class g168_newline(models.Model):
+	name = models.CharField('是否换行',max_length=255)
+	class Meta:
+		db_table = 'g168_newline'
+		verbose_name = '换行类型' 
+		verbose_name_plural = '换行类型'
+		app_label = u'菜单管理'
+
+	def __unicode__(self):
+		return self.name;
+
 class g168_item(models.Model):
 	itemcode = models.CharField('编码',max_length=32)
 	user_id = models.DecimalField(max_digits=8,decimal_places=0)	
@@ -286,9 +297,10 @@ class t_product_menu_item_approve(models.Model):
 	content = models.CharField('内容',max_length=600)
 	#link_type = models.CharField('链接类型',max_length=32)
 	link_type = models.ForeignKey(g168_link_type,db_column='link_type',verbose_name='链接类型')
-	link_value = models.CharField('链接',max_length=400)
-	pay_type = models.DecimalField(max_digits=8,decimal_places=0)
-	newline = models.DecimalField('是否换行',max_digits=8, decimal_places=0)
+	link_value = models.CharField('链接',blank=True,max_length=400)
+	pay_type = models.DecimalField(blank=True,max_digits=8,decimal_places=0)
+	#newline = models.DecimalField('是否换行',max_digits=8, decimal_places=0)
+	newline = models.ForeignKey(g168_newline, db_column='newline', verbose_name='是否换行')
 	bg_color = models.CharField(blank=True,max_length=20)
 	font_color = models.CharField(blank=True,max_length=20)
 	font_size = models.CharField(blank=True,max_length=10)
@@ -296,14 +308,14 @@ class t_product_menu_item_approve(models.Model):
 	font_style = models.CharField(blank=True,max_length=10)
 	menu_id = models.ForeignKey(t_product_menu_approve,db_column='menu_id',verbose_name='菜单')
 	order_by = models.DecimalField('排序',max_digits=8, decimal_places=0)
-	act_date = models.DateTimeField(blank=True,)
+	act_date = models.DateTimeField(blank=True)
 	tagcontent = models.CharField('标签',blank=True,max_length=32)
 	#tagcontent = models.ManyToManyField(g168_tags,db_table='g168_tags',db_column='tagcontent',verbose_name='标签')
 	rankcycle = models.DecimalField(blank=True,max_digits=8,decimal_places=0)
-	status = models.DecimalField(max_digits=8,decimal_places=0)
+	status = models.DecimalField(blank=True,max_digits=8,decimal_places=0)
 	#disptype = models.IntegerField()
 	disptype = models.ForeignKey(g168_sublist_disptype,db_column='disptype', verbose_name='分栏类型')
-	isself = models.IntegerField(blank=True,)
+	isself = models.IntegerField(blank=True)
 	type_id = models.ForeignKey(t_product_menu_type_approve,db_column='type_id', verbose_name='菜单类型')
 	reserved1 = models.IntegerField(blank=True)
 	reserved2 = models.IntegerField(blank=True)

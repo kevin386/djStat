@@ -1,0 +1,4 @@
+{% if clothing %}
+<a href="{{ clothing.realshots.href }}">实拍图</a>|
+<a href="{{ clothing.details.href }}">服装细节</a>
+{% endif %}

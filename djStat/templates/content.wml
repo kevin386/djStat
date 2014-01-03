@@ -39,7 +39,7 @@
 {% endifequal %}
 {% endifequal %}
 
-{% ifequal menu.newline 0 %}
+{% ifequal menu.newline.id 1 %}
 <br />
 {% endifequal %}
 

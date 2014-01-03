@@ -1,0 +1,28 @@
+{% if book %}
+
+市场价{{ book.mprice }},一口价{{ book.cprice }}<br />
+{% if book.days %}
+限时抢购价{{ book.dprice }},仅剩{{ book.days }}天<br />
+{% endif %}
+
+{% for spec in book.specs %}
+
+{% if spec.sizes %}
+立即订购{{ spec.color.name }}:
+{% for size in spec.sizes %}
+<a href='{{ book.href }}{{ spec.color.id }}/{{ size.id }}/'>{{ size.name }}</a>
+{% if not forloop.last %}
+|
+{% endif %}
+{% endfor %}
+{% else %}
+立即订购:
+<a href='{{ book.href }}{{ spec.color.id }}/'>{{ spec.color.name }}</a>
+{% endif %}
+{% if not forloop.last %}
+<br />
+{% endif %}
+
+{% endfor %}
+
+{% endif %}

@@ -9,6 +9,24 @@
 {% else %}
 
 {% ifequal sublist.style 2 %}
+{# 显示图片 #}
+
+{% with image=sublist.image %}
+{% include "image.wml" %}
+{% endwith %}
+
+{% else %}
+
+{% ifequal sublist.style 3 %}
+{# 显示预订信息 #}
+
+{% with book=sublist.book %}
+{% include "book.wml" %}
+{% endwith %}
+
+{% else %}
+
+{% ifequal sublist.style 4 %}
 {# 显示标题图片 #}
 
 {% with text=sublist.text %}
@@ -21,7 +39,7 @@
 
 {% else %}
 
-{% ifequal sublist.style 3 %}
+{% ifequal sublist.style 5 %}
 {# 显示标题图片以及订购信息 #}
 {% with text=sublist.text %}
 {% include "text.wml" %}
@@ -31,10 +49,12 @@
 {% include "image.wml" %}
 {% endwith %}
 <br />
-{% with order=sublist.order %}
-{% include "order.wml" %}
+{% with book=sublist.book %}
+{% include "book.wml" %}
 {% endwith %}
 
+{% endifequal %}
+{% endifequal %}
 {% endifequal %}
 {% endifequal %}
 {% endifequal %}

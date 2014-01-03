@@ -1,0 +1,8 @@
+{% if explain %}
+{% for text in explain %}
+<a href="{{ text.href }}">{{ text.value }}</a>
+{% if not forloop.last %}
+<br />
+{% endif %}
+{% endfor %}
+{% endif %}

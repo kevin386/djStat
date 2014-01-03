@@ -1,3 +1,9 @@
 {% if image %}
+{% ifnotequal image.href "" %}
+<a href="{{ image.href }}">
+{% endifnotequal %}
 <img src="{{ image.src }}" alt="{{ image.alt }}"/>
+{% ifnotequal image.href "" %}
+</a>
+{% endifnotequal %}
 {% endif %}
