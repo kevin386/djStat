@@ -4,11 +4,14 @@ from djStat.dbmgr.models import *
 from django.contrib.sites.models import get_current_site
 
 class Text():
-	def __init__(self, base_url="", value="", href="", index=0):
-		try:
-			sindex = unicode(str(index)+".")
-			self.value = sindex + value
-		except:
+	def __init__(self, base_url="", value="", href="", index=None):
+		if index:
+			try:
+				sindex = unicode(str(index)+".")
+				self.value = sindex + value
+			except:
+				self.value = value
+		else:
 			self.value = value
 		#print "Text value=" + self.value
 		if base_url and not href == "" and not href.startswith("http://"):
@@ -68,7 +71,7 @@ class MenuItem:
 		#是否换行
 		self.newline = newline
 
-def proList(request,act="",type="",orderby=""):
+def proList(request,act="",type="",orderby="",pageindex="1",pagesize="5"):
 	print ''.join(['http://', request.get_host(), request.get_full_path()])
 	base_url = "".join(['http://',request.get_host(),"/"])
 	if act == "ls":
@@ -112,10 +115,26 @@ def proList(request,act="",type="",orderby=""):
 			dbItems = g168_item.objects.filter(cname__icontains=tag,itemcode__icontains=tag).order_by("-dprice")
 
 	menuItems = []
-	if dbItems:
+
+	if not pageindex:
+		pageindex = "1"
+	pageindex = int(pageindex)
+	print "pageindex=%d" % pageindex
+	if not pagesize:
+		pagesize = "5"
+	pagesize = int(pagesize)
+	print "pagesize=%d" % pagesize
+	pagemax = pageindex*pagesize + 1
+	print "pagemax=%d" % pagemax
+	pagemin = (pageindex-1)*pagesize + 1
+	print "pagemin=%d" % pagemin
+	print "maxdbitems=%d" % dbItems.count()
+	if dbItems and pagemin < dbItems.count():
 		sublists = []
-		i = 0
-		for item in dbItems:
+		if pagemax > dbItems.count():
+			pagemax = pagemin + (pagesize-(pagemax-dbItems.count())) + 1
+		i = pagemin-1
+		for item in list(dbItems)[pagemin-1:pagemax-1]:
 			i += 1
 			href=base_url+"%d" % item.id
 			mprice=item.mprice
@@ -141,7 +160,6 @@ def proList(request,act="",type="",orderby=""):
 				image = Image(base_url=base_url, href=item.preview_image),
 				order = Order(href=href,mprice=mprice,cprice=cprice,dprice=dprice,days=days,specs=dicSpecs.values())
 				))
-
 		menuitem = MenuItem(100,sublists)
 		menuItems.append(menuitem)
 	return render_to_response('prolist.wml', {'menuItems':menuItems})
@@ -176,7 +194,11 @@ def index(request,id="1"):
 			menuitem = MenuItem(menu.content_type.id,input,menu.newline)
 		#这是图片
 		elif menu.content_type.id == 1:
-			image = Image(base_url=base_url, href=menu.content)
+			if menu.link_value:
+				h = menu.link_value
+			else:
+				h = menu.content
+			image = Image(base_url=base_url, href=h)
 			menuitem = MenuItem(menu.content_type.id,image,menu.newline)
 		#这是文本
 		elif menu.content_type.id == 0:

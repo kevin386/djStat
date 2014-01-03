@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', 'djStat.g168.views.index'),
     url(r'^(?P<id>\d+)/$', 'djStat.g168.views.index'),
     url(r'^(?P<act>ls)/(?P<type>\w+)/$', 'djStat.g168.views.proList'),
-    url(r'^(?P<act>ls)/(?P<type>\d+)/(?P<orderby>[+-]price|vist)/$', 'djStat.g168.views.proList'),
+    url(r'^(?P<act>ls)/(?P<type>\d+)/(?P<orderby>[+-]price|vist)/((?P<pageindex>\d{1,2})/((?P<pagesize>\d{1,2})/)?)?$', 'djStat.g168.views.proList'),
     url(r'^(?P<act>sch)/$', 'djStat.g168.views.proList'),
 
 	url(r'^grappelli/',include('grappelli.urls')),
