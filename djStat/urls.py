@@ -13,8 +13,8 @@ urlpatterns = patterns('',
 	#产品
     url(r'^pro/(?P<pid>\d{1,2})/$', 'djStat.g168.views.product'),
 	#产品列表
+	url(r'^ls/(?P<type>\d+)/(?P<orderby>[+-](?:price|vist))/((?P<pageindex>\d{1,2})/((?P<pagesize>\d{1,2})/)?)?$', 'djStat.g168.views.proList'),#排序列表
     url(r'^ls/$', 'djStat.g168.views.proList'),#搜索产品
-    url(r'^ls/(?P<type>\d+)/(?P<orderby>[+-]price|vist)/((?P<pageindex>\d{1,2})/((?P<pagesize>\d{1,2})/)?)?$', 'djStat.g168.views.proList'),#排序列表
 	#订单
     url(r'^order/$', 'djStat.g168.views.order'),#搜索订单
     url(r'^order/(?P<pid>\d{1,2})/((?P<color>\d{1,2})/((?P<size>\d{1,2})/)?)?$', 'djStat.g168.views.order'),#下订单

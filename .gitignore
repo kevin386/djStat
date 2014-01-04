@@ -1,3 +1,6 @@
 *.pyc
 tags
 media/*
+static/admin/*
+static/filebrowser/*
+static/grappelli/*

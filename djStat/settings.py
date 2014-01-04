@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'djStat.dbmgr',
+	'djStat.g168',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,5 +99,6 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static/').replace('\\','/')
 STATIC_URL = "/static/"
 #把每个APP下的static目录添加到下面元组
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'djStat/dbmgr/static/').replace('\\','/'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'djStat/g168/static/').replace('\\','/'),)
 
 

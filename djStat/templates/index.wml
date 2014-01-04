@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block footbar %}
+{% include "time.wml" %}
 </p>
 </card>
 {% endblock %}

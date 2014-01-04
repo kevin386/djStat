@@ -2,6 +2,7 @@
 from django.shortcuts import render_to_response
 from djStat.dbmgr.models import *
 from django.contrib.sites.models import get_current_site
+from datetime import datetime
 
 #文本
 class Text():
@@ -110,16 +111,16 @@ def getSublist(base_url,item,style=1, index=None):
 		)
 
 class Clothing:
-	def __init__(self,title,bookinfo,shots,details):
+	def __init__(self,title="",bookinfo=None,shots=None,details=None):
 		self.title = title
 		self.bookinfo = bookInfo
 		self.realshots = shots
 		self.details = details
 
 class Electronic:
-	def __init__(self,title,bookinfo):
+	def __init__(self,title="",bookinfo=None):
 		self.title = title
-		self.bookinfo = bookInfo
+		self.bookinfo = bookinfo
 
 class Product:
 	def __init__(self,type,obj=None,explain=None):
@@ -138,18 +139,21 @@ def genExpain(base_url):
 def explain(request,id):
 	base_url = "".join(['http://',request.get_host(),"/"])
 	print base_url
+	now = datetime.now()
 	return render_to_response('explain%s.wml'%id)
 
 #订单
 def order(request,pid,color,size):
 	base_url = "".join(['http://',request.get_host(),"/"])
 	print base_url
+	now = datetime.now()
 	return render_to_response('order.wml')
 
 #产品
 def product(request,pid):
 	base_url = "".join(['http://',request.get_host(),"/"])
 	print base_url
+	now = datetime.now()
 	dbItems = g168_item.objects.filter(id=pid)
 	if dbItems:
 		dbItem = list(dbItems)[0]
@@ -166,26 +170,31 @@ def product(request,pid):
 def proList(request,type="",orderby="",pageindex="1",pagesize="5"):
 	base_url = "".join(['http://',request.get_host(),"/"])
 	print base_url
+	now = datetime.now()
 
 	if not type == "":
-		#按价格由高到低排序
-		if orderby == "-price":
-			print "oder by price -"
-			dbItems = g168_item.objects.filter(ctype=type).order_by("-dprice")
 		#按价格由低到高排序
-		elif orderby == "+price":
+		print orderby
+		if orderby == "+price":
 			print "oder by price +"
+			vist_url = "ls/%s/%s/" % (type,"-vist")
 			dbItems = g168_item.objects.filter(ctype=type).order_by("dprice")
+		#按价格由高到低排序
+		#elif orderby == "-price":
+		#	print "oder by price -"
+		#	dbItems = g168_item.objects.filter(ctype=type).order_by("-dprice")
 		#按人气排序
 		elif orderby == "-vist":
 			print "oder by vist -"
+			price_url = "ls/%s/%s/" % (type,"+price")
 			dbItems = g168_item.objects.filter(ctype=type).order_by("-vistCount")
-		elif orderby == "+vist":
-			print "oder by vist +"
-			dbItems = g168_item.objects.filter(ctype=type).order_by("vistCount")
+		#elif orderby == "+vist":
+		#	print "oder by vist +"
+		#	dbItems = g168_item.objects.filter(ctype=type).order_by("vistCount")
 		#仅分类
 		else :
 			print "oder by type"
+			price_url = "ls/%s/%s/" % (type,"+price")
 			dbItems = g168_item.objects.filter(ctype=type).order_by("dprice")
 	else:
 		#从post里面获取查询内容
@@ -201,27 +210,45 @@ def proList(request,type="",orderby="",pageindex="1",pagesize="5"):
 		pagesize = "5"
 	pagesize = int(pagesize)
 	print "pagesize=%d" % pagesize
-	pagemax = pageindex*pagesize + 1
-	print "pagemax=%d" % pagemax
-	pagemin = (pageindex-1)*pagesize + 1
-	print "pagemin=%d" % pagemin
+	maxindex = pageindex*pagesize + 1
+	print "maxindex=%d" % maxindex
+	minindex = (pageindex-1)*pagesize + 1
+	print "minindex=%d" % minindex
 	print "maxdbitems=%d" % dbItems.count()
-	if dbItems and pagemin < dbItems.count():
+	if dbItems and minindex < dbItems.count():
+		#最大页数
+		maxpages = dbItems.count()/pagesize
+		if not dbItems.count()%pagesize == 0:
+			maxpages += 1
+		print maxpages
+		#页数导航
+		pagearray = range(1,maxpages+1)
+		#前页
+		if not pageindex == 1:
+			prepageindex = pageindex-1
+		#后页
+		if not pageindex == maxpages:
+			forpageindex = pageindex+1
+		#页面导航点url，后加page index
+		pageindexurl = "ls/%s/%s/" % (type, orderby)
+		print pageindexurl
+		#每个产品点订购信息
 		sublists = []
-		if pagemax > dbItems.count():
-			pagemax = pagemin + (pagesize-(pagemax-dbItems.count())) + 1
-		i = pagemin-1
-		for item in list(dbItems)[pagemin-1:pagemax-1]:
+		if maxindex > dbItems.count():
+			maxindex = minindex + (pagesize-(maxindex-dbItems.count())) + 1
+		i = minindex-1
+		for item in list(dbItems)[minindex-1:maxindex-1]:
 			i += 1
 			sublists.append(getSublist(base_url,item,style=5,index=i))
 		menuitem = MenuItem(100,sublists)
 		menuItems.append(menuitem)
-	return render_to_response('prolist.wml', {'menuItems':menuItems})
+	return render_to_response('prolist.wml', locals())
 
 # Create your views here.
 def index(request,id="1"):
 	base_url = "".join(['http://',request.get_host(),"/"])
 	print base_url
+	now = datetime.now()
 
 	dbMenuItems = t_product_menu_item_approve.objects.filter(menu_id=id).order_by('order_by')
 	menuItems = []
@@ -254,4 +281,4 @@ def index(request,id="1"):
 			print "unknow content_type"
 
 		menuItems.append(menuitem)
-	return render_to_response('index.wml', {'menuItems':menuItems})
+	return render_to_response('index.wml', locals())

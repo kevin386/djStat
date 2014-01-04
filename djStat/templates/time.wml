@@ -1,0 +1,4 @@
+{% if now %}
+<img src="{{ base_url }}static/time.jpg" alt="image time"/>
+{{ now|date:"i:s" }}
+{% endif %}

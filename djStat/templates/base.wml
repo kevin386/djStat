@@ -7,7 +7,13 @@
 {% block headbar %}
 {% endblock %}
 
+{% block navigation_head %}
+{% endblock %}
+
 {% block content %}
+{% endblock %}
+
+{% block navigation_tail %}
 {% endblock %}
 
 {% block footbar %}

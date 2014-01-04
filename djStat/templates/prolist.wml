@@ -1,15 +1,65 @@
 {% extends "base.wml" %}
 
 {% block headbar %}
-<card id="main" title="互联易购">
+{% ifequal type 3 %}
+<card id="main" title="服装列表">
+{% else %}
+{% ifequal type 2 %}
+<card id="main" title="平板列表">
+{% else %}
+<card id="main" title="手机列表">
+{% endifequal %}
+{% endifequal %}
 <p>
 {% endblock %}
 
+{% block navigation_head %}
+返回<a href="{{base_url}}">首页</a><br/>
+{% endblock %}
+
 {% block content %}
+排序:
+{% if price_url %}
+<a href="{{base_url}}{{price_url}}">价格</a>
+{% else %}
+价格
+{% endif %}
+|
+{% if vist_url %}
+<a href="{{base_url}}{{vist_url}}">销量</a>
+{% else %}
+销量
+{% endif %}
+<br />
+
 {% include "content.wml" %}
+
+<br />
+{% if prepageindex %}
+<a href="{{base_url}}{{pageindexurl}}{{prepageindex}}/">后页</a>
+{% endif %}
+
+{% for i in pagearray %}
+{% ifequal i pageindex %}
+<a href="{{base_url}}{{pageindexurl}}{{i}}/"><strong>[{{i}}]</strong></a>
+{% else %}
+<a href="{{base_url}}{{pageindexurl}}{{i}}/">[{{i}}]</a>
+{% endifequal %}
+{% endfor %}
+
+{% if forpageindex %}
+<a href="{{base_url}}{{pageindexurl}}{{forpageindex}}/">前页</a>
+{% endif %}
+
+<br />
+{% endblock %}
+
+{% block navigation_tail %}
+返回<a href="{{base_url}}">首页</a><br/>
 {% endblock %}
 
 {% block footbar %}
+{% include "time.wml" %}
 </p>
 </card>
 {% endblock %}
