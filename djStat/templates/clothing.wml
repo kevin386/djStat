@@ -1,4 +1,36 @@
 {% if clothing %}
-<a href="{{ clothing.realshots.href }}">实拍图</a>|
-<a href="{{ clothing.details.href }}">服装细节</a>
+
+{% with sublists=clothing.book_h %}
+{% include "subfield.wml" %}
+{% endwith %}
+<br/>
+
+{% for text in clothing.slider %}
+{% include "text.wml" %}
+{% if not forloop.last %}
+|
+{% endif %}
+{% endfor %}
+<br/>
+
+{{ clothing.content|safe }}
+<br/>
+
+{% with text=clothing.foot %}
+{% include "text.wml" %}
+{% endwith %}
+<br/>
+
+{% for text in clothing.navi %}
+{% include "text.wml" %}
+{% if not forloop.last %}
+|
+{% endif %}
+{% endfor %}
+<br/>
+
+{% with sublists=clothing.book_t %}
+{% include "subfield.wml" %}
+{% endwith %}
+<br/>
 {% endif %}

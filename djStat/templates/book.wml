@@ -16,13 +16,19 @@
 {% endif %}
 {% endfor %}
 {% else %}
+{% if forloop.first %}
 立即订购:
+{% endif %}
 <a href='{{ book.href }}{{ spec.color.id }}/'>{{ spec.color.name }}</a>
 {% endif %}
+
 {% if not forloop.last %}
 <br />
 {% endif %}
 
 {% endfor %}
+
+<br />
+订购热线:<a href="wtai://wp/mc;4000075545">400-007-5545</a>
 
 {% endif %}

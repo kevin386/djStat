@@ -14,8 +14,14 @@
 <p>
 {% endblock %}
 
+{% block navigation_head %}
 {% block content %}
-{% ifequal product.type 3 %}
+{% with navi=product.navi %}
+{% include "navi.wml" %}
+{% endwith %}
+{% endblock %}
+
+{% ifequal product.type.id 3 %}
 {% with clothing=product.obj %}
 {% include "clothing.wml" %}
 {% endwith %}

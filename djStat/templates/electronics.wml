@@ -1,0 +1,36 @@
+{% if electronics %}
+
+{% with sublists=electronics.book_h %}
+{% include "subfield.wml" %}
+{% endwith %}
+<br/>
+
+{% for text in electronics.slider %}
+{% include "text.wml" %}
+{% if not forloop.last %}
+|
+{% endif %}
+{% endfor %}
+<br/>
+
+{{ electronics.content|safe }}
+<br/>
+
+{% with text=electronics.foot %}
+{% include "text.wml" %}
+{% endwith %}
+<br/>
+
+{% for text in electronics.navi %}
+{% include "text.wml" %}
+{% if not forloop.last %}
+|
+{% endif %}
+{% endfor %}
+<br/>
+
+{% with sublists=electronics.book_t %}
+{% include "subfield.wml" %}
+{% endwith %}
+<br/>
+{% endif %}

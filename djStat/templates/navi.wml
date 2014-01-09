@@ -1,0 +1,10 @@
+{% if navi %}
+返回
+{% for text in navi %}
+{% include "text.wml" %}
+{% if not forloop.last %}
+>
+{% endif %}
+{% endfor %}
+<br />
+{% endif %}
