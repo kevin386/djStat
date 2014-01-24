@@ -48,9 +48,10 @@ class objPair():
 
 #预订规格
 class Spec():
-	def __init__(self, color=None, sizes=None):
+	def __init__(self, color=None, sizes=None, has_sizes=False):
 		self.color = color
 		self.sizes = sizes
+		self.has_sizes = has_sizes
 
 #预订价格和活动
 class BookInfo():
@@ -98,10 +99,11 @@ def getSublist(base_url,item,style=1, index=None):
 			color = objPair(sp.specid.id, sp.specid.name)
 			if not dicSpecs.has_key(sp.specid.id):
 				sizes = []
-				dicSpecs[sp.specid.id] = Spec(color, sizes)
+				dicSpecs[sp.specid.id] = Spec(color, sizes, False)
 			if not sp.csize.name == '---':
 				size = objPair(sp.csize.id, sp.csize.name)
 				dicSpecs[sp.specid.id].sizes.append(size)
+				dicSpecs[sp.specid.id].has_sizes = True
 	return Sublist(
 		#产品列表点显示类型
 		style = style,
@@ -202,6 +204,7 @@ def product(request,pid,type=None):
 		sublists_t = []
 		sublists_t.append(getSublist(base_url,dbItem,style=3))
 		slider = []
+		foot = None
 		if not type:
 			sublists_h.append(getSublist(base_url,dbItem,style=4))
 			slider.append(Text(base_url,u"整体外观","pro/%s/entiry/"%pid))
@@ -213,6 +216,7 @@ def product(request,pid,type=None):
 				content += "<br />" + dbItem.recommend
 			if dbItem.feature:
 				content += "<br />" + dbItem.feature
+			foot = Text(base_url,u"查看详细参数","pro/%s/details/"%pid)
 		elif type == "entiry":
 			sublists_h.append(getSublist(base_url,dbItem,style=1))
 			slider.append(Text(base_url,u"整体外观"))
@@ -250,7 +254,7 @@ def product(request,pid,type=None):
 				book_t=sublists_t,
 				slider=slider,
 				content=content,
-				foot=Text(base_url,u"查看详细参数","pro/%s/details/"%pid)
+				foot=foot
 				)
 	p = Product(dbItem.ctype,obj=obj,explain=genExpain(base_url),navi=navi)
 	return render_to_response('product.wml', {"product":p})

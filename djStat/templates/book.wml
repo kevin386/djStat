@@ -23,12 +23,14 @@
 {% endif %}
 
 {% if not forloop.last %}
+{% if spec.has_sizes %}
 <br />
+{% else %}
+|
 {% endif %}
-
+{% endif %}
 {% endfor %}
-
 <br />
-订购热线:<a href="wtai://wp/mc;4000075545">400-007-5545</a>
+电话订购:<a href="wtai://wp/mc;4000075545">400-007-5545</a>
 
 {% endif %}
